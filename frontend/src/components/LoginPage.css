@@ -1,0 +1,9 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(180deg, #190019, #2B124C, #52285B, #854F6C, #DFB6B2, #FBE4D8);
+    margin: 0;
+    padding: 0;
+    color: #a34b4b;
+    background-attachment: fixed;
+}
