@@ -14,7 +14,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB URI
-const uri = process.env.MONGO_URI || "mongodb+srv://saikrishna:<db_password>@cluster1.6xshj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
+const uri =
+  process.env.MONGO_URI ||
+  "mongodb+srv://saikrishna:Saikrishna123@cluster1.6xshj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
 
 // Create a MongoClient instance
 const client = new MongoClient(uri, {
@@ -42,11 +44,16 @@ async function startServer() {
   } catch (error) {
     console.error("Error connecting to MongoDB:", error.message);
     process.exit(1); // Exit the process on failure
-  } finally {
-    // Optionally, the client can stay open for the app's lifetime
-    // await client.close(); // Uncomment to close the connection after use
   }
 }
 
+// Graceful shutdown to close MongoDB connection
+process.on("SIGINT", async () => {
+  console.log("\nShutting down server...");
+  await client.close();
+  console.log("MongoDB connection closed.");
+  process.exit(0);
+});
+
 // Start the server
-startServer().catch(console.error);
+startServer().catch((error) => console.error("Unexpected error:", error));
